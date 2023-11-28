@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "af24d934-e374-45a8-b8dc-db2e9f093bf6"
+      }
+    },
+    "owner": "kensuke24"
   }
 }
