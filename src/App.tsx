@@ -1,16 +1,22 @@
+import { NotificationBanner } from "components/organisms/NotificationBanner";
 import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { EventListScreen } from "screens/EventListScreen";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello!!</Text>
-      <Text>TODO:nativeBaseを使用して一覧（モック）の作成</Text>
-      <EventListScreen />
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          <NotificationBanner />
+          <EventListScreen />
+          <StatusBar style="auto" />
+        </View>
+      </SafeAreaView>
+    </NativeBaseProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Text, FlatList } from "native-base";
+import { mockEvents } from "models/EventsListMock";
 /**
  * `EventListScreen` コンポーネントは、イベントの一覧を表示する画面です。
  * 各イベントはタイトル、日付、場所、および説明を含むボックスでリスト表示されます。
@@ -33,28 +34,3 @@ export const EventListScreen = () => {
     </Box>
   );
 };
-
-const mockEvents = [
-  {
-    id: "1",
-    title: "React Native Workshop",
-    date: "2023-01-15",
-    location: "Tokyo",
-    description: "Learn about React Native development.",
-  },
-  {
-    id: "2",
-    title: "JavaScript Conference",
-    date: "2023-02-20",
-    location: "Osaka",
-    description: "Join us to explore advanced JavaScript topics.",
-  },
-  {
-    id: "3",
-    title: "Mobile App Design Trends",
-    date: "2023-03-05",
-    location: "Kyoto",
-    description: "Discover the latest trends in mobile app design.",
-  },
-  // 他のモックイベントデータを追加することができます
-];
