@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToggleDarkMode } from "components/molecules/ToggleDarkMode";
 import { NotificationBanner } from "components/organisms/NotificationBanner";
 import { registerRootComponent } from "expo";
@@ -8,15 +9,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { EventListScreen } from "screens/EventListScreen";
 import customTheme from "styles/customTheme";
 
+const queryClient = new QueryClient();
+
 /**
  * 起点となるもの
  * @returns App
  */
 export default function App() {
   return (
-    <NativeBaseProvider theme={customTheme}>
-      <Root />
-    </NativeBaseProvider>
+    <QueryClientProvider client={queryClient}>
+      <NativeBaseProvider theme={customTheme}>
+        <Root />
+      </NativeBaseProvider>
+    </QueryClientProvider>
   );
 }
 
