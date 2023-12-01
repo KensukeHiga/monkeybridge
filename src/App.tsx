@@ -1,15 +1,18 @@
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToggleDarkMode } from "components/molecules/ToggleDarkMode";
-import { NotificationBanner } from "components/organisms/NotificationBanner";
 import { registerRootComponent } from "expo";
-import { StatusBar } from "expo-status-bar";
-import { Box, NativeBaseProvider, View, useColorMode } from "native-base";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { NativeBaseProvider, StatusBar } from "native-base";
 import { EventListScreen } from "screens/EventListScreen";
+import { QuickSearchScreen } from "screens/QuickSearchScreen";
 import customTheme from "styles/customTheme";
 
 const queryClient = new QueryClient();
+type DrawerParamList = {
+  Events: undefined; // 他のルートも必要に応じて追加
+  Search: undefined;
+};
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 /**
  * 起点となるもの
@@ -19,58 +22,16 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NativeBaseProvider theme={customTheme}>
-        <Root />
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="Events">
+            <Drawer.Screen name="Events" component={EventListScreen} />
+            <Drawer.Screen name="Search" component={QuickSearchScreen} />
+          </Drawer.Navigator>
+          <StatusBar />
+        </NavigationContainer>
       </NativeBaseProvider>
     </QueryClientProvider>
   );
 }
-
-/**
- * NativeBaseProviderが提供する機能（useColorMode）を使用するためSafeAreaView以下をrootに分離した。
- * @returns Root
- */
-const Root = () => {
-  const { colorMode } = useColorMode();
-  const bgColor =
-    colorMode === "dark"
-      ? customTheme.colors.dark.background
-      : customTheme.colors.light.background;
-
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: bgColor,
-      }}
-    >
-      <View>
-        <Box style={styles.headerContainer}>
-          <Box style={{ flex: 1 }} /> {/* 空のBoxで左側のスペースを作成 */}
-          <ToggleDarkMode />
-        </Box>
-        <NotificationBanner />
-        <EventListScreen />
-        <StatusBar style="auto" />
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // backgroundColor: "#fff",
-    alignItems: "center",
-    // justifyContent: "center",
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    padding: 10, // 適宜調整
-    width: "100%",
-  },
-});
 
 registerRootComponent(App);
