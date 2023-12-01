@@ -1,4 +1,7 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  DrawerContentScrollView,
+  createDrawerNavigator,
+} from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { registerRootComponent } from "expo";
@@ -23,9 +26,12 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <NativeBaseProvider theme={customTheme}>
         <NavigationContainer>
-          <Drawer.Navigator initialRouteName="Events">
+          <Drawer.Navigator
+            initialRouteName="Events"
+            drawerContent={() => <QuickSearchScreen />}
+          >
             <Drawer.Screen name="Events" component={EventListScreen} />
-            <Drawer.Screen name="Search" component={QuickSearchScreen} />
+            {/* <Drawer.Screen name="Search" component={QuickSearchScreen} /> */}
           </Drawer.Navigator>
           <StatusBar />
         </NavigationContainer>

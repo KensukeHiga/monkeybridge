@@ -29,15 +29,20 @@ export const QuickSearchScreen: FC = () => {
         placeholder="Search events"
         // その他のInputのプロパティ
       />
+      <Box mt={4} />
       <FlatList
         data={mockTags}
+        scrollEnabled={false}
         renderItem={({ item }) => (
-          <Button onPress={() => handleTagPress(item)}>{item.label}</Button>
+          <Button size={"sm"} onPress={() => handleTagPress(item)}>
+            {item.label}
+          </Button>
         )}
         keyExtractor={(item) => item.id}
       />
       <Button
         mt={4}
+        size={"sm"}
         onPress={() => {
           /* ここにお気に入りイベントの処理を追加 */
         }}
