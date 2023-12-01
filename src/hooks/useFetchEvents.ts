@@ -1,9 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import {
-  UseQueryResult,
-  useQuery,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 // APIレスポンスの型定義
 interface Event {
