@@ -8,11 +8,17 @@ import {
   Text,
   Alert,
 } from "native-base";
+import { FC } from "react";
 
-export function NotificationBanner() {
+type MeaasageStatus = "info" | "success" | "error";
+export const NotificationBanner: FC<{
+  mesStatus: MeaasageStatus;
+  mesTitle: string;
+  mesDetail: string;
+}> = ({ mesStatus, mesTitle, mesDetail }) => {
   return (
     <Center>
-      <Alert maxW="400" status="info" colorScheme="info">
+      <Alert maxW="400" status={mesStatus} colorScheme={mesStatus}>
         <VStack space={2} flexShrink={1} w="100%">
           <HStack
             flexShrink={1}
@@ -23,7 +29,7 @@ export function NotificationBanner() {
             <HStack flexShrink={1} space={2} alignItems="center">
               <Alert.Icon />
               <Text fontSize="md" fontWeight="medium" color="coolGray.800">
-                {"Dev TODO:"}
+                {mesTitle}
               </Text>
             </HStack>
             <IconButton
@@ -43,10 +49,10 @@ export function NotificationBanner() {
               color: "coolGray.600",
             }}
           >
-            {"外部APIを使用して検索結果の取得"}
+            {mesDetail}
           </Box>
         </VStack>
       </Alert>
     </Center>
   );
-}
+};

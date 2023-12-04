@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from "react";
-import { Box, Text, FlatList, useColorMode, StatusBar } from "native-base";
+import { Box, Text, FlatList, useColorMode, Image } from "native-base";
 import { mockEvents } from "models/EventsListMock";
 import customTheme from "styles/customTheme";
 import { useFetchEvents } from "hooks/useFetchEvents";
@@ -9,6 +9,7 @@ import { ToggleDarkMode } from "components/molecules/ToggleDarkMode";
 import { NotificationBanner } from "components/organisms/NotificationBanner";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ConnpassLogo from "../assets/connpass_logo.png";
 
 /**
  * NativeBaseProviderが提供する機能（useColorMode）を使用するためSafeAreaView以下をrootに分離した。
@@ -34,7 +35,7 @@ export const EventListScreen: FC = () => {
           <Box style={{ flex: 1 }} /> {/* 空のBoxで左側のスペースを作成 */}
           <ToggleDarkMode />
         </Box>
-        <NotificationBanner />
+
         <EventListRoot />
       </Box>
     </SafeAreaView>
@@ -76,7 +77,15 @@ export const EventListRoot = () => {
 };
 
 const ErrorComponent = ({ error }: FallbackProps) => {
-  return <Text>{error.message}</Text>;
+  return (
+    <>
+      <NotificationBanner
+        mesStatus={"error"}
+        mesTitle={"エラーが発生しました。"}
+        mesDetail={error.message}
+      />
+    </>
+  );
 };
 
 export const EventListComponent = () => {
@@ -92,23 +101,31 @@ export const EventListComponent = () => {
       <FlatList
         data={data.events}
         renderItem={({ item }) => (
-          <Box borderBottomWidth="1" borderColor={customColor.border} p="4">
-            <Text color={customColor.primary} fontWeight="bold">
-              {item.title}
-            </Text>
-            <Text color={customColor.secondary} fontSize="xs">
-              {/* {item.started_at} */}
-              {format(new Date(item.started_at), "yyyy年MM月dd日") ||
-                "undefined"}
-            </Text>
-            <Text color={customColor.secondary} fontSize="xs">
-              {item.address}
-              {"/"}
-              {item.place}
-            </Text>
-            <Text color={customColor.secondary} mt="2">
-              {item.catch}
-            </Text>
+          <Box
+            borderBottomWidth="1"
+            borderColor={customColor.border}
+            p="4"
+            flexDirection="row"
+            alignItems="center"
+          >
+            <Image
+              source={ConnpassLogo}
+              alt="Thumbnail"
+              size="md" // サムネイルのサイズを指定
+              marginRight="4" // テキストとの間隔を調整
+            />
+            <Box flex="1" justifyContent="center">
+              <Text color={customColor.primary} fontWeight="bold">
+                {item.title}
+              </Text>
+              <Text color={customColor.secondary} fontSize="xs">
+                {format(new Date(item.started_at), "yyyy年MM月dd日") ||
+                  "undefined"}
+              </Text>
+              <Text color={customColor.secondary} fontSize="xs">
+                {item.address} {"/"} {item.place}
+              </Text>
+            </Box>
           </Box>
         )}
         keyExtractor={(item) => String(item.event_id)}
